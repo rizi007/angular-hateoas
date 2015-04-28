@@ -105,12 +105,17 @@ angular.module("hateoas", ["ngResource"])
 
 				var arrayToObject = function (keyItem, valueItem, array) {
 					var obj = {};
-					angular.forEach(array, function (item, index) {
-						if ((item[keyItem] || index) && item[valueItem]) {
+					if ((item[keyItem] || index) && item[valueItem] &&  Object.keys(item).length == 2) {
 							obj[item[keyItem] || index] = item[valueItem];
 						}
+						else {
+							var tempObj={};
+							for (var prop in item) {
+						    	tempObj[prop]=item[prop];
+							}
+							obj[item[keyItem]] = tempObj; 
+						}
 					});
-
 					return obj;
 				};
 
